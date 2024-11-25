@@ -1,5 +1,8 @@
 # python DDP_simsiam_ccrop.py path/to/this/config
-
+import torch
+from torch.utils.data import DataLoader
+from torchvision import transforms
+from datasets import BDD100K_boxes
 # model
 dim, pred_dim = 512, 128
 model = dict(type='ResNet', depth=18, num_classes=dim, maxpool=False, zero_init_residual=True)
@@ -7,7 +10,7 @@ simsiam = dict(dim=dim, pred_dim=pred_dim)
 loss = dict(type='CosineSimilarity', dim=1)
 
 # data
-root = './data'
+root = './datasets/BDD100K_link/train'
 mean = (0.4914, 0.4822, 0.4465)
 std = (0.2023, 0.1994, 0.2010)
 batch_size = 512
@@ -15,28 +18,28 @@ num_workers = 4
 data = dict(
     train=dict(
         ds_dict=dict(
-            type='CIFAR10_boxes',
+            type='BDD100K_boxes',
             root=root,
             train=True,
         ),
         rcrop_dict=dict(
-            type='cifar_train_rcrop',
+            type='bdd100k_train_rcrop',
             mean=mean, std=std
         ),
         ccrop_dict=dict(
-            type='cifar_train_ccrop',
+            type='bdd100k_train_ccrop',
             alpha=0.1,
             mean=mean, std=std
         ),
     ),
     eval_train=dict(
         ds_dict=dict(
-            type='CIFAR10',
+            type='bdd100k_boxes',
             root=root,
             train=True,
         ),
         trans_dict=dict(
-            type='cifar_test',
+            type='bdd100k_test',
             mean=mean, std=std
         ),
     ),

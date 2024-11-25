@@ -11,6 +11,7 @@ import torch.multiprocessing as mp
 from torch.utils.tensorboard import SummaryWriter
 import torch.nn.functional as F
 
+
 from builder import build_optimizer, build_logger
 from models import BYOL, build_model
 from losses import build_loss
@@ -18,6 +19,8 @@ from datasets import build_dataset, build_dataset_ccrop
 
 from utils.util import AverageMeter, format_time, set_seed, adjust_learning_rate
 from utils.config import Config, ConfigDict, DictAction
+
+# Example config structure for the BYOL model
 
 
 def parse_args():
@@ -203,6 +206,7 @@ def main():
 
 
 def main_worker(rank, world_size, cfg):
+    
     print('==> Start rank:', rank)
 
     local_rank = rank % 8
@@ -224,6 +228,7 @@ def main_worker(rank, world_size, cfg):
 
     train_set = build_dataset_ccrop(cfg.data.train)
     len_ds = len(train_set)
+    print(f"Length of dataset: {len_ds}")
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_set, shuffle=True)
     train_loader = torch.utils.data.DataLoader(
         train_set,

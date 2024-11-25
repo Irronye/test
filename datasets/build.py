@@ -1,7 +1,7 @@
 import datasets
 from datasets.transforms import build_transform
 import torchvision
-
+from datasets import BDD100K
 
 def build_dataset(cfg):
     args = cfg.copy()
@@ -19,7 +19,6 @@ def build_dataset(cfg):
         ds = datasets.__dict__[ds_name](**ds_dict)
     return ds
 
-
 def build_dataset_ccrop(cfg):
     args = cfg.copy()
 
@@ -30,7 +29,7 @@ def build_dataset_ccrop(cfg):
     # build dataset
     ds_dict = args.ds_dict
     ds_name = ds_dict.pop('type')
-    ds_dict['transform_rcrop'] = transform_rcrop
+    ds_dict['transform_rcrop'] = transform_rcrop    
     ds_dict['transform_ccrop'] = transform_ccrop
     ds = datasets.__dict__[ds_name](**ds_dict)
     return ds

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/jjy8474/naturalistic-crops/DDP_byol_ccrop.py", line 312, in <module>
+    main()
+  File "/home/jjy8474/naturalistic-crops/DDP_byol_ccrop.py", line 192, in main
+    cfg = get_cfg(args)
+  File "/home/jjy8474/naturalistic-crops/DDP_byol_ccrop.py", line 42, in get_cfg
+    cfg = Config.fromfile(args.config)
+  File "/home/jjy8474/naturalistic-crops/utils/config.py", line 331, in fromfile
+    cfg_dict, cfg_text = Config._file2dict(filename,
+  File "/home/jjy8474/naturalistic-crops/utils/config.py", line 182, in _file2dict
+    raise FileNotFoundError(f'file {filename} does not exist')
+FileNotFoundError: file /configs/small/cifar100/byol_ccrop.py does not exist
