@@ -1,0 +1,1 @@
+FATAL:   while loading overlay images: failed to open overlay image /scratch/mae9855/ContrastiveCrop/overlay-50G-10M.ext3: failed to retrieve path for /scratch/mae9855/ContrastiveCrop/overlay-50G-10M.ext3: lstat /scratch/mae9855/ContrastiveCrop: permission denied

@@ -1,5 +1,5 @@
 # python DDP_simclr_ccrop.py path/to/this/config
-
+from .bdd100k import BDD100K_boxes
 # model
 dim = 128
 model = dict(type='ResNet', depth=18, num_classes=dim, maxpool=False)
@@ -14,28 +14,28 @@ num_workers = 4
 data = dict(
     train=dict(
         ds_dict=dict(
-            type='CIFAR10_boxes',
+            type='BDD100K_boxes',
             root=root,
             train=True,
         ),
         rcrop_dict=dict(
-            type='cifar_train_rcrop',
+            type='bdd_train_rcrop',
             mean=mean, std=std
         ),
         ccrop_dict=dict(
-            type='cifar_train_ccrop',
+            type='bdd_train_ccrop',
             alpha=0.1,
             mean=mean, std=std
         ),
     ),
     eval_train=dict(
         ds_dict=dict(
-            type='CIFAR10',
+            type='BDD100K',
             root=root,
             train=True,
         ),
         trans_dict=dict(
-            type='cifar_test',
+            type='bdd_test',
             mean=mean, std=std
         ),
     ),

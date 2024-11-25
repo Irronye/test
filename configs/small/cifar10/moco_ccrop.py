@@ -1,5 +1,6 @@
 # python DDP_moco_ccrop.py path/to/this/config
 
+
 # model
 dim = 128
 model = dict(type='ResNet', depth=18, num_classes=dim, maxpool=False)
@@ -7,14 +8,14 @@ moco = dict(dim=dim, K=65536, m=0.999, T=0.20, mlp=True)
 loss = dict(type='CrossEntropyLoss')
 
 # data
-root = './data'
+root = './datasets/cifar-10-batches-py'
 mean = (0.4914, 0.4822, 0.4465)
 std = (0.2023, 0.1994, 0.2010)
 batch_size = 512
 num_workers = 4
 data = dict(
     train=dict(
-        ds_dict=dict(
+            ds_dict=dict(
             type='CIFAR10_boxes',
             root=root,
             train=True,

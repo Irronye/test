@@ -4,67 +4,59 @@
 hidden_dim = 512
 model = dict(type='ResNet', depth=18, num_classes=hidden_dim, maxpool=False)
 byol = dict(dim=hidden_dim, pred_dim=128, m=0.996)
-loss = dict(type='CosineSimilarity', dim=1)
-
+loss = dict(type='CrossEntropyLoss')
 # data
-root = './data'
-mean = (0.5071, 0.4867, 0.4408)
-std = (0.2675, 0.2565, 0.2761)
-batch_size = 512
+root_train = './datasets/BDD100K/100k/train'
+root_val = './datasets/BDD100K/100k/val'
+mean = (0.485, 0.456, 0.406)
+std = (0.229, 0.224, 0.225)
+batch_size = 256
 num_workers = 4
 data = dict(
     train=dict(
         ds_dict=dict(
-            type='CIFAR100_boxes',
-            root=root,
-            train=True,
+            type='BDD100KCCrop',
+            root=root_train,
         ),
         rcrop_dict=dict(
-            type='cifar_train_rcrop',
+            type='BDD100K_pretrain_rcrop',
             mean=mean, std=std
         ),
         ccrop_dict=dict(
-            type='cifar_train_ccrop',
+            type='BDD100K_pretrain_ccrop',
             alpha=0.1,
             mean=mean, std=std
         ),
     ),
     eval_train=dict(
         ds_dict=dict(
-            type='CIFAR100',
-            root=root,
+            type='BDD100KCCrop',
+            root=root_val,
             train=True,
         ),
         trans_dict=dict(
-            type='cifar_test',
+            type='BDD100K_val',
             mean=mean, std=std
         ),
     ),
 )
-
-# boxes
-warmup_epochs = 100
-loc_interval = 100
-box_thresh = 0.10
-
 # training optimizer & scheduler
-epochs = 500
-lr = 0.5
-optimizer = dict(type='SGD', lr=lr, momentum=0.9, weight_decay=1e-4)
+epochs = 100
+lr = 30.
+optimizer = dict(type='SGD', lr=lr, momentum=0.9, weight_decay=0)
 lr_cfg = dict(  # passed to adjust_learning_rate(cfg=lr_cfg)
-    type='Cosine',
+    type='MultiStep',
     steps=epochs,
     lr=lr,
     decay_rate=0.1,
-    # decay_steps=[100, 150]
+    decay_steps=[60, 80],
     warmup_steps=0,
     # warmup_from=0.01
-)
+    )
 
 
 # log & save
-log_interval = 20
-save_interval = 250
+log_interval = 100
 work_dir = None  # rewritten by args
 resume = None
 load = None
